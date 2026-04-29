@@ -1,11 +1,16 @@
 [project]
 name = "taskagent"
 version = "0.1.0"
-description = "Add your description here"
+description = "AI-powered task manager using natural language"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.10"
 dependencies = [
-    "agent>=0.1.3",
-    "openai>=2.32.0",
-    "requests>=2.33.1",
+    "openai>=2.33.0",
+    "requests>=2.31.0",
 ]
+
+[project.scripts]
+taskagent = "src.main:main"
+
+[tool.uv]
+dev-dependencies = []

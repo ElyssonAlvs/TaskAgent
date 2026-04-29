@@ -1,0 +1,12 @@
+agent:
+  model: "mistral"
+  timeout: 5
+  max_retries: 1
+
+api:
+  base_url: "http://localhost:8000/v1"
+  timeout: 5
+
+llm:
+  endpoint: "http://localhost:11434/v1"
+  api_key: "ollama"
