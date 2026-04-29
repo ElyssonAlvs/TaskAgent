@@ -1,24 +1,20 @@
-#!/usr/bin/env python
-"""Ponto de entrada do TaskAgent"""
-
 from src.agents.task_agent import run_agent
 
 
 def main():
-    """Função principal do agente"""
     while True:
         try:
             user_input = input(">>> ")
-            if user_input.lower() in ['exit', 'quit', 'sair']:
-                print("Até logo!")
+            if user_input.lower() in ['exit', 'quit', 'quit']:
+                print("Goodbye!")
                 break
             result = run_agent(user_input)
             print(result)
         except KeyboardInterrupt:
-            print("\n\nAté logo!")
+            print("\n\nGoodbye!")
             break
         except Exception as e:
-            print(f"Erro inesperado: {str(e)}")
+            print(f"Unexpected error: {str(e)}")
 
 
 if __name__ == "__main__":

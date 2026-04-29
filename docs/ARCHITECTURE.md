@@ -1,11 +1,11 @@
 # Architecture
 
-## Componentes Principais
+## Main Components
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    USER INPUT                        │
-│            (Linguagem Natural)                       │
+│            (Natural Language)                        │
 └────────────────────┬────────────────────────────────┘
                      │
 ┌────────────────────▼────────────────────────────────┐
@@ -35,46 +35,46 @@
     └──────────────────────────────────┘
 ```
 
-## Fluxo de Dados
+## Data Flow
 
-**Entrada:** `"crie uma tarefa chamada Estudar"`
+**Input:** `"Create a task called Study"`
 
-1. **Agent recebe** → `run_agent()` em `task_agent.py`
-2. **LLM processa** → Mistral escolhe função `create_task()`
-3. **Parser processa** → Extrai argumentos
-4. **Ferramenta executa** → Chamada API ao TaskManager
-5. **Resultado retorna** → Mensagem formatada ao usuário
+1. **Agent receives** → `run_agent()` in `task_agent.py`
+2. **LLM processes** → Mistral chooses function `create_task()`
+3. **Parser processes** → Extracts arguments
+4. **Tool executes** → API call to TaskManager
+5. **Result returns** → Formatted message to user
 
-## Estrutura de Diretórios
+## Directory Structure
 
 ```
 src/
-├── agents/          # Lógica do agente
+├── agents/          # Agent logic
 │   └── task_agent.py   # Run agent, parser, tool dispatcher
-├── tools/           # Ferramentas (API calls)
+├── tools/           # Tools (API calls)
 │   └── task_tools.py   # CRUD: get, create, list, update, delete
-├── utils/           # Utilitários (vazio por enquanto)
+├── utils/           # Utilities (empty for now)
 └── main.py         # Entry point
 
 config/
-├── settings.yaml    # Configurações
-└── .env.example     # Template de variáveis
+├── settings.yaml    # Configuration
+└── .env.example     # Environment template
 
 docs/
-├── QUICK_START.md   # Como começar
-├── ARCHITECTURE.md  # Este arquivo
-├── PARSER.md        # Como o parser funciona
-├── COMMANDS.md      # Comandos disponíveis
-└── TROUBLESHOOTING.md # Resolvendo problemas
+├── QUICK_START.md   # Getting started
+├── ARCHITECTURE.md  # This file
+├── PARSER.md        # How the parser works
+├── COMMANDS.md      # Available commands
+└── TROUBLESHOOTING.md # Troubleshooting issues
 
 data/
-├── examples/        # Exemplos de uso
-└── logs/           # Logs da execução
+├── examples/        # Usage examples
+└── logs/           # Execution logs
 ```
 
-## Tecnologias
+## Technologies
 
-| Componente | Tecnologia |
+| Component | Technology |
 |-----------|-----------|
 | LLM | Ollama (Mistral) |
 | API Client | OpenAI Python |

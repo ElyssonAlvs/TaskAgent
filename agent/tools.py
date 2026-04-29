@@ -5,18 +5,18 @@ REQUEST_TIMEOUT = 5
 
 
 def get_task(task_id: int):
-    """Obter detalhes de uma tarefa específica"""
+    """Get details of a specific task"""
     try:
         response = requests.get(
             f"{BASE_URL}/tasks/{task_id}", timeout=REQUEST_TIMEOUT)
         task = response.json()
 
         if "detail" in task:
-            return f"Tarefa {task_id} nao encontrada"
+            return f"Task {task_id} not found"
 
-        return f"[{task['id']}] {task['title']}\nStatus: {task['status']}\nDescricao: {task.get('description', 'N/A')}"
+        return f"[{task['id']}] {task['title']}\nStatus: {task['status']}\nDescription: {task.get('description', 'N/A')}"
     except Exception as e:
-        return f"Erro: {str(e)}"
+        return f"Error: {str(e)}"
 
 
 def create_task(title: str, description: str = "", status: str = "pending"):
@@ -27,9 +27,9 @@ def create_task(title: str, description: str = "", status: str = "pending"):
             timeout=REQUEST_TIMEOUT
         )
         task = response.json()
-        return f"Tarefa criada: {task['title']} (ID: {task['id']})"
+        return f"Task created: {task['title']} (ID: {task['id']})"
     except Exception as e:
-        return f"Erro: {str(e)}"
+        return f"Error: {str(e)}"
 
 
 def list_tasks(status: str = None, skip: int = 0, limit: int = 10):
@@ -43,19 +43,19 @@ def list_tasks(status: str = None, skip: int = 0, limit: int = 10):
         tasks = response.json()
 
         if not tasks:
-            return "Sem tarefas"
+            return "No tasks"
 
-        result = f"Tarefas ({len(tasks)}):\n"
+        result = f"Tasks ({len(tasks)}):\n"
         for task in tasks:
             result += f"[{task['id']}] {task['title']} ({task['status']})\n"
 
         return result.strip()
     except Exception as e:
-        return f"Erro: {str(e)}"
+        return f"Error: {str(e)}"
 
 
 def update_task(task_id: int, title: str = None, description: str = None, status: str = None):
-    """Atualiza uma tarefa existente"""
+    """Update an existing task"""
     try:
         update_data = {}
         if title is not None:
@@ -66,7 +66,7 @@ def update_task(task_id: int, title: str = None, description: str = None, status
             update_data["status"] = status
 
         if not update_data:
-            return "Nenhum campo para atualizar"
+            return "No fields to update"
 
         response = requests.put(
             f"{BASE_URL}/tasks/{task_id}",
@@ -76,11 +76,11 @@ def update_task(task_id: int, title: str = None, description: str = None, status
 
         if response.status_code == 200:
             task = response.json()
-            return f"Tarefa {task_id} atualizada: {task['title']} (Status: {task['status']})"
+            return f"Task {task_id} updated: {task['title']} (Status: {task['status']})"
         else:
-            return f"Erro ao atualizar: {response.json().get('detail', 'Erro desconhecido')}"
+            return f"Error updating: {response.json().get('detail', 'Unknown error')}"
     except Exception as e:
-        return f"Erro: {str(e)}"
+        return f"Error: {str(e)}"
 
 
 def delete_task(task_id: int):
@@ -88,8 +88,8 @@ def delete_task(task_id: int):
         response = requests.delete(
             f"{BASE_URL}/tasks/{task_id}", timeout=REQUEST_TIMEOUT)
         if response.status_code == 204:
-            return f"Tarefa {task_id} deletada"
+            return f"Task {task_id} deleted"
         else:
-            return "Erro ao deletar"
+            return "Error deleting"
     except Exception as e:
-        return f"Erro: {str(e)}"
+        return f"Error: {str(e)}"

@@ -13,31 +13,31 @@
 
 ## Status Values
 
-- `pending` - Tarefa não iniciada
-- `in_progress` - Tarefa em andamento
-- `done` - Tarefa concluída
+- `pending` - Task not started
+- `in_progress` - Task in progress
+- `done` - Task completed
 
 ## Examples
 
 ### Create
 ```
 >>> create task: Morning workout
-Tarefa criada: Morning workout (ID: 1)
+Task created: Morning workout (ID: 1)
 
 >>> create a task called Review code with description "Check PR #42"
-Tarefa criada: Review code (ID: 2)
+Task created: Review code (ID: 2)
 ```
 
 ### List
 ```
 >>> list my tasks
-Tarefas (3):
+Tasks (3):
 [1] Morning workout (pending)
 [2] Review code (pending)
 [3] Meeting (done)
 
 >>> show in_progress tasks
-Tarefas (1):
+Tasks (1):
 [2] Review code (in_progress)
 ```
 
@@ -46,29 +46,29 @@ Tarefas (1):
 >>> show task 2
 [2] Review code
 Status: in_progress
-Descrição: Check PR #42
+Description: Check PR #42
 ```
 
 ### Update
 ```
 >>> update task 1 to done
-Tarefa 1 atualizada: Morning workout (Status: done)
+Task 1 updated: Morning workout (Status: done)
 ```
 
 ### Delete
 ```
 >>> delete task 3
-Tarefa 3 deletada
+Task 3 deleted
 ```
 
 ## Natural Language Support
 
-O agente entende múltiplas variações de linguagem natural:
-- Português e Inglês
-- Formas diferentes de pedir a mesma coisa
-- Abreviações (ex: "task" = "tarefa")
+The agent understands multiple variations of natural language:
+- Portuguese and English
+- Different ways to ask for the same thing
+- Abbreviations (ex: "task" = "tarefa")
 
-**Não funciona com:**
-- Requisições muito vagas
-- Múltiplas ações em um comando
-- Idiomas diferentes dos suportados
+**Does not work with:**
+- Very vague requests
+- Multiple actions in one command
+- Unsupported languages

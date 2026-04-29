@@ -109,11 +109,11 @@ Full list in [COMMANDS.md](docs/COMMANDS.md)
 
 ## 🧠 How It Works (Simplified)
 
-1. **You talk** → "crie uma tarefa"
+1. **You talk** → "Create a task to study"
 2. **LLM understands** → Mistral model decides to call `create_task()`
 3. **Parser converts** → Extracts title and other parameters
 4. **Tool executes** → Calls TaskManager API
-5. **Result returns** → "Tarefa criada: ..."
+5. **Result returns** → "Task created: ..."
 
 See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for full details.
 

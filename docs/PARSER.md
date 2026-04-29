@@ -1,89 +1,89 @@
 # Parser Mechanism
 
-## O que é o Parser?
+## What is the Parser?
 
-O **parser** é o mecanismo que traduz a resposta do LLM em comandos executáveis. Ele é o coração que converte linguagem natural em ações.
+The **parser** is the mechanism that translates the LLM response into executable commands. It is the heart that converts natural language into actions.
 
-## Fluxo Simplificado
+## Simplified Flow
 
 ```
-Input: "crie uma tarefa chamada Estudar"
+Input: "Create a task called Study"
   ↓
-LLM Decision: Chamar create_task(title="Estudar")
+LLM Decision: Call create_task(title="Study")
   ↓
-Parser processa resposta
+Parser processes response
   ↓
-Execute: Chamada API ao TaskManager
+Execute: API call to TaskManager
   ↓
-Output: "Tarefa criada: Estudar (ID: 1)"
+Output: "Task created: Study (ID: 1)"
 ```
 
-## 5 Estratégias de Parsing
+## 5 Parsing Strategies
 
 ### 1. **Structured Tool Calls (Ideal)**
-LLM retorna resposta estruturada do OpenAI:
+LLM returns structured OpenAI response:
 ```json
 {
   "name": "create_task",
-  "arguments": {"title": "Estudar"}
+  "arguments": {"title": "Study"}
 }
 ```
-→ Direto para execução
+→ Direct execution
 
 ### 2. **JSON Text Response**
-LLM retorna JSON como texto:
+LLM returns JSON as text:
 ```
-[{"name": "create_task", "arguments": {"title": "Estudar"}}]
+[{"name": "create_task", "arguments": {"title": "Study"}}]
 ```
-→ `parse_json_response()` converte
+→ `parse_json_response()` converts
 
 ### 3. **Function Call String**
-LLM retorna chamada de função:
+LLM returns function call:
 ```
-create_task(title="Estudar")
+create_task(title="Study")
 ```
-→ `_handle_function_call()` com REGEX
+→ `_handle_function_call()` with REGEX
 
 ### 4. **Named Arguments**
-Argumentos com chave=valor:
+Arguments with key=value:
 ```
-title="Estudar", status="pending"
+title="Study", status="pending"
 ```
-→ `_parse_named_args()` extrai
+→ `_parse_named_args()` extracts
 
 ### 5. **Positional Arguments**
-Apenas valores em ordem:
+Values only in order:
 ```
-"Estudar"
+"Study"
 ```
-→ `_parse_positional_args()` mapeia
+→ `_parse_positional_args()` maps
 
 ## Fallback Chain
 
-Se uma estratégia falhar, tenta a próxima:
+If one strategy fails, it tries the next:
 
 ```
-Resposta da IA
+AI Response
     │
-    ├─→ Tem tool_calls estruturado?
-    │   └─→ SIM: Executa direto
-    │   └─→ NÃO: Próximo passo
+    ├─→ Has structured tool_calls?
+    │   └─→ YES: Execute directly
+    │   └─→ NO: Next step
     │
-    ├─→ É JSON válido?
-    │   └─→ SIM: Parse JSON → Executa
-    │   └─→ NÃO: Próximo passo
+    ├─→ Valid JSON?
+    │   └─→ YES: Parse JSON → Execute
+    │   └─→ NO: Next step
     │
-    ├─→ É função Python?
-    │   └─→ SIM: Parse função → Executa
-    │   └─→ NÃO: Próximo passo
+    ├─→ Is Python function?
+    │   └─→ YES: Parse function → Execute
+    │   └─→ NO: Next step
     │
-    └─→ Erro: "Não consegui processar"
+    └─→ Error: "Could not process"
 ```
 
-## Funções-Chave
+## Key Functions
 
 **`execute_tool(name, args)`**  
-Executa a função com argumentos. Faz o mapeamento:
+Executes function with arguments. Does the mapping:
 ```python
 TOOL_FUNCTIONS = {
     "get_task": get_task,
@@ -93,11 +93,11 @@ TOOL_FUNCTIONS = {
 ```
 
 **`parse_json_response(content_str)`**  
-Converte string JSON em dicionário
+Converts JSON string to dictionary
 
 **`_handle_function_call(func_str)`**  
-Usa REGEX para extrair: `(\w+)\((.*)\)`
-- Grupo 1: Nome da função
+Uses REGEX to extract: `(\w+)\((.*)\)`
+- Group 1: Function name
 - Grupo 2: Argumentos
 
 **`handle_json_fallback(message_content)`**  

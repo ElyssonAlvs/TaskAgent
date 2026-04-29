@@ -2,76 +2,76 @@
 
 ## "Connection refused" / API offline
 
-**Problema:** Erro conectando ao TaskManager
+**Problem:** Error connecting to TaskManager
 
-**Solução:**
+**Solution:**
 ```bash
 cd ../TaskManager
 uv run python -m uvicorn main:app --reload
 ```
 
-API deve estar em `http://localhost:8000`
+API should be at `http://localhost:8000`
 
 ---
 
 ## "Connection refused" / Ollama offline
 
-**Problema:** Erro conectando ao Ollama
+**Problem:** Error connecting to Ollama
 
-**Solução:**
+**Solution:**
 ```bash
 ollama serve
 ```
 
-Ollama deve estar em `http://localhost:11434`
+Ollama should be at `http://localhost:11434`
 
 ---
 
 ## "Model not found"
 
-**Problema:** Mistral model não disponível
+**Problem:** Mistral model not available
 
-**Solução:**
+**Solution:**
 ```bash
 ollama pull mistral
 ```
 
-Aguarde download completar.
+Wait for download to complete.
 
 ---
 
 ## Request timeout
 
-**Problema:** Agente demora demais para responder
+**Problem:** Agent takes too long to respond
 
-**Causas:**
-- LLM lento (máquina sobrecarregada)
-- Network lenta
-- TaskManager sobrecarregado
+**Causes:**
+- Slow LLM (machine overloaded)
+- Slow network
+- Overloaded TaskManager
 
-**Soluções:**
-1. Aumentar timeout em `config/settings.yaml`:
+**Solutions:**
+1. Increase timeout in `config/settings.yaml`:
    ```yaml
    agent:
-     timeout: 10  # De 5 para 10 segundos
+     timeout: 10  # From 5 to 10 seconds
    ```
 
-2. Fechar abas/programas para liberar recursos
+2. Close tabs/programs to free up resources
 
-3. Usar modelo menor (ex: `neural-chat`)
+3. Use smaller model (ex: `neural-chat`)
 
 ---
 
 ## ImportError: No module named 'openai'
 
-**Problema:** Biblioteca openai não instalada
+**Problem:** openai library not installed
 
-**Solução:**
+**Solution:**
 ```bash
 uv sync
 ```
 
-Ou:
+Or:
 ```bash
 uv pip install openai requests
 ```
@@ -80,23 +80,23 @@ uv pip install openai requests
 
 ## "Unknown tool" error
 
-**Problema:** Agente não reconheceu o comando
+**Problem:** Agent did not recognize the command
 
-**Causa:** Comando muito vago ou ambíguo
+**Cause:** Command too vague or ambiguous
 
-**Solução:** Ser mais específico:
+**Solution:** Be more specific:
 ```
-❌ "faça algo com tarefa"
-✅ "crie uma tarefa chamada Estudar"
+❌ "do something with task"
+✅ "create a task called Study"
 ```
 
 ---
 
-## Tarefa não é criada
+## Task is not created
 
-**Problema:** Comando foi entendido mas tarefa não foi criada
+**Problem:** Command was understood but task was not created
 
-**Causas:**
+**Causes:**
 1. TaskManager API offline
 2. Banco de dados full
 3. Erro na API

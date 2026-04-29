@@ -14,11 +14,11 @@ tools = [
         "type": "function",
         "function": {
             "name": "get_task",
-            "description": "Obtem detalhes completos de uma tarefa especifica pelo ID",
+            "description": "Get complete details of a specific task by ID",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "task_id": {"type": "integer", "description": "ID da tarefa"}
+                    "task_id": {"type": "integer", "description": "Task ID"}
                 },
                 "required": ["task_id"]
             }
@@ -28,13 +28,13 @@ tools = [
         "type": "function",
         "function": {
             "name": "create_task",
-            "description": "Cria uma nova tarefa",
+            "description": "Create a new task",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "title": {"type": "string", "description": "Titulo da tarefa"},
-                    "description": {"type": "string", "description": "Descricao opcinal"},
-                    "status": {"type": "string", "description": "Status: pending, in_progress ou done"}
+                    "title": {"type": "string", "description": "Task title"},
+                    "description": {"type": "string", "description": "Optional description"},
+                    "status": {"type": "string", "description": "Status: pending, in_progress or done"}
                 },
                 "required": ["title"]
             }
@@ -44,11 +44,11 @@ tools = [
         "type": "function",
         "function": {
             "name": "list_tasks",
-            "description": "Lista todas as tarefas com filtros opcionais",
+            "description": "List all tasks with optional filters",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "status": {"type": "string", "description": "Filtrar por status: pending, in_progress ou done"},
+                    "status": {"type": "string", "description": "Filter by status: pending, in_progress or done"},
                     "skip": {"type": "integer"},
                     "limit": {"type": "integer"}
                 }
@@ -59,14 +59,14 @@ tools = [
         "type": "function",
         "function": {
             "name": "update_task",
-            "description": "Atualiza uma tarefa existente (titulo, descricao ou status)",
+            "description": "Update an existing task (title, description or status)",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "task_id": {"type": "integer", "description": "ID da tarefa a atualizar"},
-                    "title": {"type": "string", "description": "Novo titulo da tarefa"},
-                    "description": {"type": "string", "description": "Nova descricao da tarefa"},
-                    "status": {"type": "string", "description": "Novo status: pending, in_progress ou done"}
+                    "task_id": {"type": "integer", "description": "Task ID to update"},
+                    "title": {"type": "string", "description": "New task title"},
+                    "description": {"type": "string", "description": "New task description"},
+                    "status": {"type": "string", "description": "New status: pending, in_progress or done"}
                 },
                 "required": ["task_id"]
             }
@@ -76,11 +76,11 @@ tools = [
         "type": "function",
         "function": {
             "name": "delete_task",
-            "description": "Deleta uma tarefa pelo ID",
+            "description": "Delete a task by ID",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "task_id": {"type": "integer", "description": "ID da tarefa a deletar"}
+                    "task_id": {"type": "integer", "description": "Task ID to delete"}
                 },
                 "required": ["task_id"]
             }
@@ -88,20 +88,21 @@ tools = [
     }
 ]
 
-SYSTEM_PROMPT = """Você é um assistente que OBRIGATORIAMENTE deve chamar funções.
-Seu trabalho é interpretar o comando do usuário e chamar a função correta.
+SYSTEM_PROMPT = """You are an assistant that MUST call functions.
+Your job is to interpret the user's command and call the correct function.
 
-REGRAS:
-1. O usuário quer ver UMA tarefa específica? Chame: get_task(task_id=...)
-2. O usuário quer listar tarefas? Chame: list_tasks() ou list_tasks(status="pending")
-3. O usuário quer criar tarefa? Chame: create_task(title="...", description="...", status="pending")
-4. O usuário quer deletar tarefa? Chame: delete_task(task_id=...)
+RULES:
+1. User wants to see ONE specific task? Call: get_task(task_id=...)
+2. User wants to list tasks? Call: list_tasks() or list_tasks(status="pending")
+3. User wants to create task? Call: create_task(title="...", description="...", status="pending")
+4. User wants to delete task? Call: delete_task(task_id=...)
+5. User wants to update task? Call: update_task(task_id=..., status="...")
 
-NUNCA responda com texto. SEMPRE use uma função.
-NUNCA explique o que vai fazer.
+NEVER respond with text. ALWAYS use a function.
+NEVER explain what you will do.
 """
 
-# Mapa de ferramentas disponíveis
+# Map of available tools
 TOOL_FUNCTIONS = {
     "get_task": get_task,
     "create_task": create_task,
@@ -112,18 +113,18 @@ TOOL_FUNCTIONS = {
 
 
 def execute_tool(name: str, args: dict) -> str:
-    """Executa uma ferramenta pelo nome com os argumentos fornecidos."""
+    """Execute a tool by name with provided arguments."""
     tool_func = TOOL_FUNCTIONS.get(name)
     if not tool_func:
         return "Unknown tool"
     try:
         return tool_func(**args)
     except Exception as e:
-        return f"Erro ao executar {name}: {str(e)}"
+        return f"Error executing {name}: {str(e)}"
 
 
 def parse_json_response(content_str: str) -> Optional[Dict]:
-    """Parseia JSON de resposta como texto."""
+    """Parse JSON response as text."""
     try:
         content_str = content_str.strip()
         if not content_str:
@@ -141,14 +142,14 @@ def parse_json_response(content_str: str) -> Optional[Dict]:
 
 
 def handle_tool_call(tool_call: Any) -> str:
-    """Processa uma chamada de ferramenta estruturada."""
+    """Process a structured tool call."""
     name = tool_call.function.name
     args = json.loads(tool_call.function.arguments)
     return execute_tool(name, args)
 
 
 def _parse_named_args(args_str: str) -> Dict:
-    """Parseia argumentos nomeados: task_id=1, title="foo" """
+    """Parse named arguments: task_id=1, title="foo" """
     args = {}
     for pair in args_str.split(','):
         if '=' not in pair:
@@ -163,7 +164,7 @@ def _parse_named_args(args_str: str) -> Dict:
 
 
 def _parse_positional_args(func_name: str, positional_args: list) -> Dict:
-    """Mapeia argumentos posicionais para nomeados baseado no nome da função."""
+    """Map positional arguments to named based on function name."""
     args = {}
 
     if func_name in ("get_task", "delete_task"):
@@ -185,7 +186,7 @@ def _parse_positional_args(func_name: str, positional_args: list) -> Dict:
 
 
 def _handle_function_call(func_str: str) -> Optional[str]:
-    """Processa string com chamada de função: get_task(1) ou get_task(task_id=1)"""
+    """Process string with function call: get_task(1) or get_task(task_id=1)"""
     match = re.match(r'(\w+)\((.*)\)', func_str.strip())
     if not match:
         return None
@@ -195,7 +196,7 @@ def _handle_function_call(func_str: str) -> Optional[str]:
     if not args_str:
         return execute_tool(name, {})
 
-    # Argumentos nomeados vs posicionais
+    # Named vs positional arguments
     if '=' in args_str:
         args = _parse_named_args(args_str)
     else:
@@ -206,26 +207,26 @@ def _handle_function_call(func_str: str) -> Optional[str]:
 
 
 def handle_json_fallback(message_content: str) -> str:
-    """Processa fallback quando modelo retorna JSON ou função Python como texto."""
+    """Process fallback when model returns JSON or Python function as text."""
     content_str = message_content.strip()
 
-    # Tenta parsear como JSON
+    # Try to parse as JSON
     parsed = parse_json_response(content_str)
     if parsed and "name" in parsed:
         name = parsed["name"]
         args = parsed.get("arguments", {})
         return execute_tool(name, args)
 
-    # Tenta parsear como função Python
+    # Try to parse as Python function
     result = _handle_function_call(content_str)
     if result is not None:
         return result
 
-    return f"Erro ao processar: {message_content}"
+    return f"Error processing: {message_content}"
 
 
 def run_agent(user_input: str) -> str:
-    """Executa o agente com entrada do usuário."""
+    """Run the agent with user input."""
     response = client.chat.completions.create(
         model="mistral",
         messages=[
@@ -244,7 +245,7 @@ def run_agent(user_input: str) -> str:
     if message.content:
         return handle_json_fallback(message.content)
 
-    return "Erro: Sem resposta do modelo"
+    return "Error: No response from model"
 
 
 if __name__ == "__main__":

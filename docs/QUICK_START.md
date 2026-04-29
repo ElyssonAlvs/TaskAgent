@@ -1,26 +1,26 @@
 # Quick Start
 
-## Pré-requisitos
+## Prerequisites
 
 - Python 3.10+
-- Ollama rodando (`ollama serve`)
-- TaskManager API rodando em `http://localhost:8000`
+- Ollama running (`ollama serve`)
+- TaskManager API running on `http://localhost:8000`
 - UV package manager
 
-## Instalação
+## Installation
 
 ```bash
 # Clone/setup
 cd TaskAgent
 uv venv
 
-# Ative o ambiente
+# Activate the environment
 source .venv/bin/activate  # Linux/Mac
-# ou
+# or
 .venv\Scripts\activate     # Windows
 ```
 
-## Iniciar Ollama
+## Start Ollama
 
 **Terminal 1:**
 ```bash
@@ -32,7 +32,7 @@ ollama serve
 ollama pull mistral
 ```
 
-## Iniciar TaskManager API
+## Start TaskManager API
 
 **Terminal 3:**
 ```bash
@@ -40,9 +40,9 @@ cd ../TaskManager
 uv run python -m uvicorn main:app --reload
 ```
 
-API disponível em: `http://localhost:8000`
+API available at: `http://localhost:8000`
 
-## Rodar TaskAgent
+## Run TaskAgent
 
 **Terminal 4:**
 ```bash
@@ -50,7 +50,7 @@ cd ../TaskAgent
 uv run python -m src.main
 ```
 
-## Primeiros Comandos
+## First Commands
 
 ```
 >>> list my tasks
@@ -58,4 +58,4 @@ uv run python -m src.main
 >>> show task 1
 ```
 
-Ver mais exemplos em [docs/COMMANDS.md](COMMANDS.md)
+See more examples in [docs/COMMANDS.md](COMMANDS.md)
