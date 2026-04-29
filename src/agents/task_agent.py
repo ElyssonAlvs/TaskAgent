@@ -2,7 +2,7 @@ from openai import OpenAI
 import json
 import re
 from typing import Optional, Dict, Any
-from tools import create_task, list_tasks, delete_task, get_task, update_task
+from src.tools.task_tools import create_task, list_tasks, delete_task, get_task, update_task
 
 client = OpenAI(
     base_url="http://localhost:11434/v1",
