@@ -12,5 +12,5 @@ dependencies = [
 [project.scripts]
 taskagent = "src.main:main"
 
-[tool.uv]
-dev-dependencies = []
+[dependency-groups]
+dev = []
