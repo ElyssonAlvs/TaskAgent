@@ -98,78 +98,78 @@ uv pip install openai requests
 
 **Causes:**
 1. TaskManager API offline
-2. Banco de dados full
-3. Erro na API
+2. Database full
+3. API error
 
-**Solução:**
-1. Verificar logs em `data/logs/`
-2. Checar status da API:
+**Solution:**
+1. Check logs in `data/logs/`
+2. Check API status:
    ```bash
    curl http://localhost:8000/v1/tasks/
    ```
 
 ---
 
-## Ollama muito lento
+## Ollama Too Slow
 
-**Problema:** Respostas demorando muito
+**Problem:** Responses taking too long
 
-**Soluções:**
-1. Usar modelo mais leve:
+**Solutions:**
+1. Use lighter model:
    ```bash
    ollama pull neural-chat
-   # Depois alterar em config/settings.yaml:
+   # Then change in config/settings.yaml:
    # model: neural-chat
    ```
 
-2. Aumentar RAM alocada para Ollama
+2. Increase RAM allocated to Ollama
 
-3. Usar GPU se disponível
+3. Use GPU if available
 
 ---
 
-## Módulo não encontrado
+## Module Not Found
 
-**Problema:** `ModuleNotFoundError: No module named 'src'`
+**Problem:** `ModuleNotFoundError: No module named 'src'`
 
-**Solução:**
-Executar sempre da raiz do projeto:
+**Solution:**
+Always run from project root:
 ```bash
 cd c:\Users\elyss\Desktop\Projects\1_agent\TaskAgent
 uv run python -m src.main
 ```
 
-Nunca:
+Never:
 ```bash
 cd src
-python main.py  # ❌ Errado
+python main.py  # ❌ Wrong
 ```
 
 ---
 
-## Como debug?
+## How to Debug?
 
-1. **Ativar verbose logging:**
+1. **Enable verbose logging:**
    ```bash
    export LOG_LEVEL=DEBUG  # Linux
    set LOG_LEVEL=DEBUG     # Windows
    uv run python -m src.main
    ```
 
-2. **Checar logs:**
+2. **Check logs:**
    ```bash
    tail -f data/logs/agent.log
    ```
 
-3. **Testar API manualmente:**
+3. **Test API manually:**
    ```bash
    curl http://localhost:8000/v1/tasks/
    ```
 
 ---
 
-## Mais ajuda?
+## Need More Help?
 
-1. Verificar [QUICK_START.md](QUICK_START.md)
-2. Ver exemplos em `data/examples/usage.md`
-3. Ler [ARCHITECTURE.md](ARCHITECTURE.md)
+1. Check [QUICK_START.md](QUICK_START.md)
+2. See examples in `data/examples/usage.md`
+3. Read [ARCHITECTURE.md](ARCHITECTURE.md)

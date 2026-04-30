@@ -98,31 +98,31 @@ Converts JSON string to dictionary
 **`_handle_function_call(func_str)`**  
 Uses REGEX to extract: `(\w+)\((.*)\)`
 - Group 1: Function name
-- Grupo 2: Argumentos
+- Group 2: Arguments
 
 **`handle_json_fallback(message_content)`**  
-Orquestra a cadeia de fallbacks
+Orchestrates the fallback chain
 
-## Por que múltiplas estratégias?
+## Why Multiple Strategies?
 
-Ollama (Mistral local) não é 100% confiável:
-- Às vezes retorna JSON
-- Às vezes retorna Python code
-- Às vezes retorna estruturado
+Ollama (local Mistral) is not 100% reliable:
+- Sometimes returns JSON
+- Sometimes returns Python code
+- Sometimes returns structured format
 
-Múltiplas estratégias garantem robustez.
+Multiple strategies ensure robustness.
 
-## Detalhes Técnicos
+## Technical Details
 
-Arquivo: `src/agents/task_agent.py`
+File: `src/agents/task_agent.py`
 
-Funções principais:
-- `run_agent()` - Entrada
-- `handle_tool_call()` - Processa tool_calls estruturados
-- `handle_json_fallback()` - Processa fallbacks
-- `_parse_named_args()` - Parser para key=value
-- `_parse_positional_args()` - Parser para argumentos posicionais
-- `_handle_function_call()` - Parser REGEX para function strings
-- `execute_tool()` - Executa função mapeada
+Main functions:
+- `run_agent()` - Entry point
+- `handle_tool_call()` - Processes structured tool_calls
+- `handle_json_fallback()` - Processes fallbacks
+- `_parse_named_args()` - Parser for key=value
+- `_parse_positional_args()` - Parser for positional arguments
+- `_handle_function_call()` - REGEX parser for function strings
+- `execute_tool()` - Executes mapped function
 
-Ver [docs/ARCHITECTURE.md](ARCHITECTURE.md) para contexto completo.
+See [docs/ARCHITECTURE.md](ARCHITECTURE.md) for full context.
